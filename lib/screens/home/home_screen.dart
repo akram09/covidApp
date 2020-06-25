@@ -1,6 +1,9 @@
+import 'package:covid_app/bloc/covid_bloc.dart';
+import 'package:covid_app/consts.dart';
 import 'package:covid_app/widgets/covid_chart.dart';
 import 'package:covid_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -8,6 +11,15 @@ class HomePage extends StatelessWidget {
 
   void _onSelectCityClicked(){
 
+  }
+  String _getFormattedDate(){
+    final date = DateTime.now();
+    final month = MONTHS[date.month-1];
+    final day = date.day;
+    final year = date.year; 
+    final hour = date.hour;
+    final minute = date.minute;
+    return "$month $day, $year $hour:$minute GMT+1";
   }
 
   Widget _topAppBar(){
@@ -20,7 +32,7 @@ class HomePage extends StatelessWidget {
   Widget _covidAlgeriaInfo(BuildContext context , DateTime lastUpdate, int CaseNumber){
     return Column(children: <Widget>[
       Container(
-        child: Text("Mar 22, 2020 12:48 GMT",style: Theme.of(context).textTheme.overline.apply(
+        child: Text(_getFormattedDate(),style: Theme.of(context).textTheme.overline.apply(
           color: Colors.white
           
         ),),alignment:AlignmentDirectional.topStart , 
@@ -41,9 +53,22 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              child: Text("2500",style: Theme.of(context).textTheme.headline3.apply(
-              color: Colors.white ),)
-              , ),
+              child: BlocBuilder<CovidBloc, CovidState>(builder: (context , state){
+                  if(state is LoadingSuccess){
+                    return Text(state.stats.totalCases.toString(),
+                        style: Theme.of(context).textTheme.headline3.apply(
+                          color: Colors.white
+                        )
+                      );
+                  }else{
+                    return Text("0",style: Theme.of(context).textTheme.headline3.apply(
+                        color: Colors.white 
+                        ),
+                      );
+                  }
+              })    
+            )  
+            ,
             RaisedButton(  
               onPressed: _onSelectCityClicked,
               color: Colors.white,

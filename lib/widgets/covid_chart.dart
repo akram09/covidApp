@@ -4,15 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CovidChart extends StatelessWidget {
-  List<charts.Series> seriesList;
+  List<charts.Series<DayState, String>> seriesList;
   final bool animate;
   final bool isRecovered; 
   final List<DayState> history;   
 
   CovidChart({this.animate, this.history,this.isRecovered});
-
-  
- 
 
 
   @override
@@ -41,31 +38,23 @@ class CovidChart extends StatelessWidget {
     );
   }
 
-  List<charts.Series<OrdinalSales, String>> _createSeries(){
-    final recoveredCases = history.map((e) => OrdinalSales(e.day.toIso8601String(), e.recoveredNumber));
-    final deathCases = history.map((e) => OrdinalSales(e.day.toIso8601String(), e.deathNumber));
-    return [
-       new charts.Series<OrdinalSales, String>(
+  void _createSeries(){
+    seriesList = [
+       charts.Series<DayState, String>(
         id: 'Recovered',
-        domainFn: (OrdinalSales sales, _) => sales.day,
-        measureFn: (OrdinalSales sales, _) => sales.number,
-        data: isRecovered ? deathCases : recoveredCases,
+        domainFn: (DayState numbers, _) => numbers.day.toIso8601String(),
+        measureFn: (DayState numbers, _) => isRecovered ? numbers.deathNumber: numbers.recoveredNumber,
+        data: history,
         seriesColor: charts.MaterialPalette.gray.shade200
       ),
-      new charts.Series<OrdinalSales, String>(
-        id: 'Deaths',
-        domainFn: (OrdinalSales sales, _) => sales.day,
-        measureFn: (OrdinalSales sales, _) => sales.number,
-        data: isRecovered ? recoveredCases: deathCases,
+      charts.Series<DayState, String>(
+        id: 'Global Revenue',
+        domainFn: (DayState numbers, _) => numbers.day.toIso8601String(),
+        measureFn: (DayState numbers, _) => isRecovered ? numbers.recoveredNumber:numbers.deathNumber ,
+        data:history,
         seriesColor: isRecovered ? charts.MaterialPalette.green.makeShades(2)[0]: charts.MaterialPalette.red.makeShades(2)[0]
       ),
     ];
   }
 }
 /// Sample ordinal data type.
-class OrdinalSales {
-  final String day;
-  final int number;
-
-  OrdinalSales(this.day, this.number);
-}

@@ -10,7 +10,7 @@ class CovidApiClient {
   const CovidApiClient({@required this.dio});
   
   // TODO: add api call here 
-  Stats getCountryStats(){
+  Stats getCountryStats(){  
     return Stats(city: null , activeCases: 2060 , closedCases: 1094, totalCases: 3160,historyStats: <DayState>[
 
     ] );

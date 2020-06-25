@@ -1,12 +1,14 @@
+import 'package:covid_app/bloc/covid_bloc.dart';
 import 'package:covid_app/models/day_stat.dart';
 import 'package:covid_app/widgets/covid_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CovidStatsCard extends StatelessWidget {
-  final List<DayState> history;
+  
 
-  const CovidStatsCard({Key key, this.history}) : super(key: key); 
+  const CovidStatsCard({Key key}) : super(key: key); 
 
 
   
@@ -40,24 +42,23 @@ class CovidStatsCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4, top: 6),
                 )
                 , 
-                Row(children: <Widget>[
-                Container(
-                  child: CovidChart(animate: true, history: history, isRecovered: false,),
-                  width: 200,
-                  height: 100,
-                ),
-                Container(
-                  child: CovidChart(animate: true, history: history,isRecovered: true,),
-                  width: 200,
-                  height: 100,
-                ),
-
-
-                ],)
                 
                 
-
-              
+                Container(
+                  child: BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
+                    if(state is InitialLoading){
+                      return Center(child: CircularProgressIndicator(),);
+                    }else if(state is LoadingSuccess){
+                      return CovidChart(animate: true,isRecovered: false,history: state.stats.historyStats,);
+                    }else{
+                      return Center(child: Text("No Internet Connection", style: Theme.of(context).textTheme.subtitle1.apply(color: Colors.red),));
+                    }
+                    
+                  },),
+                  width: _media.width /2 -40.0,
+                  height: 120,
+                ),
+               
             ],
 
           ),
