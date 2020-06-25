@@ -1,3 +1,5 @@
+
+import 'package:covid_app/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
       });
     }
     static const List<Widget> mainPages = <Widget>[
-        Center(child: Text("data")),
+        HomePage(),
         Center(child: Text("dadeata")),
     ];
 
@@ -25,12 +27,12 @@ class _MainScreenState extends State<MainScreen> {
     @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: mainPages.elementAt(_currentIndex),
+      body: SafeArea(child: mainPages.elementAt(_currentIndex),),  
       bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.accessible), title: Text("")),
+        BottomNavigationBarItem(icon: Icon(Icons.pie_chart), title: Text("")),
 
-       BottomNavigationBarItem(icon: Icon(Icons.accessible), title: Text("")),
-       BottomNavigationBarItem(icon: Icon(Icons.accessible), title: Text("")),
+       BottomNavigationBarItem(icon: Icon(Icons.multiline_chart), title: Text("")),
+       BottomNavigationBarItem(icon: Icon(Icons.short_text), title: Text("")),
        BottomNavigationBarItem(icon: Icon(Icons.person_outline), title: Text("")),
       ],
       currentIndex: _currentIndex,

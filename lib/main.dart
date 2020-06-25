@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: "Covid App",
       theme: ThemeData(
         primaryColor: Color.fromRGBO(250, 128, 82,1)
+      
       ),
       home:MainScreen() ,
     );
