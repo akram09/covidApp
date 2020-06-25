@@ -1,0 +1,1 @@
+export './covid_stats_card.dart';
