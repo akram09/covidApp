@@ -1,9 +1,14 @@
+import 'package:covid_app/models/day_stat.dart';
 import 'package:covid_app/widgets/covid_chart.dart';
-import 'package:covid_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 
 class CovidStatsCard extends StatelessWidget {
+  final List<DayState> history;
+
+  const CovidStatsCard({Key key, this.history}) : super(key: key); 
+
+
   
   @override
   Widget build(BuildContext context) {
@@ -35,11 +40,21 @@ class CovidStatsCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4, top: 6),
                 )
                 , 
+                Row(children: <Widget>[
                 Container(
-                  child: CovidChart.withSampleData(),
+                  child: CovidChart(animate: true, history: history, isRecovered: false,),
                   width: 200,
                   height: 100,
-                )
+                ),
+                Container(
+                  child: CovidChart(animate: true, history: history,isRecovered: true,),
+                  width: 200,
+                  height: 100,
+                ),
+
+
+                ],)
+                
                 
 
               

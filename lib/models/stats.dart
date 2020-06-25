@@ -1,28 +1,20 @@
+import 'package:covid_app/models/day_stat.dart';
 import 'package:equatable/equatable.dart';
 
 class Stats extends Equatable{
   final String city; 
   final int totalCases;
-  final int recoveredCases; 
-  final int deaths; 
   final int activeCases; 
-  final double midCondition;
-  final double criticalCondition; 
   final int closedCases; 
-  final double recovered; 
-  final double death; 
-  final List<int> recoveredHistory; 
-  final List<int> deathHistory; 
+  final List<DayState> historyStats;
 
-  const Stats({this.totalCases, this.recoveredCases, this.deaths, this.activeCases, this.midCondition, this.criticalCondition, this.closedCases, this.recovered, this.death, this.recoveredHistory, this.deathHistory, this.city});
+  Stats({this.city, this.totalCases, this.activeCases, this.closedCases, this.historyStats}); 
+
 
 
   @override
   List<Object> get props => [
-    this.totalCases, this.recoveredCases, this.deaths, 
-    this.activeCases, this.midCondition, this.criticalCondition,
-     this.closedCases, this.recovered, this.death, 
-    this.recoveredHistory, this.deathHistory, this.city
+    this.city, this.totalCases, this.activeCases, this.closedCases, this.historyStats
   ];
 
 }

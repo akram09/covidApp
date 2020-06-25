@@ -1,23 +1,23 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:covid_app/models/day_stat.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CovidChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
+  List<charts.Series> seriesList;
   final bool animate;
+  final bool isRecovered; 
+  final List<DayState> history;   
 
-  CovidChart(this.seriesList, {this.animate});
+  CovidChart({this.animate, this.history,this.isRecovered});
 
-   factory CovidChart.withSampleData() {
-    return new CovidChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+  
+ 
 
 
   @override
   Widget build(BuildContext context) {
+    _createSeries();
     return charts.BarChart(
       seriesList,
       animate: animate,
@@ -27,6 +27,8 @@ class CovidChart extends StatelessWidget {
           showAxisLine: false),
       defaultRenderer: charts.BarRendererConfig(
         groupingType: charts.BarGroupingType.stacked,
+
+        cornerStrategy: const charts.ConstCornerStrategy(30),
         strokeWidthPx: 1
         
       ),
@@ -39,74 +41,31 @@ class CovidChart extends StatelessWidget {
     );
   }
 
-
-
-
-  /// Create series list with single series
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final globalSalesData = [
-      new OrdinalSales('2007', 3100),
-      new OrdinalSales('2008', 3500),
-      new OrdinalSales('2009', 5000),
-      new OrdinalSales('2010', 2500),
-      new OrdinalSales('2011', 3200),
-      new OrdinalSales('2012', 4500),
-      new OrdinalSales('2013', 4400),
-      new OrdinalSales('2014', 5000),
-      new OrdinalSales('2015', 5000),
-      new OrdinalSales('2016', 4500),
-      new OrdinalSales('2017', 4300),
-       new OrdinalSales('2018', 4500),
-      new OrdinalSales('2019', 4400),
-      new OrdinalSales('2020', 5000),
-      new OrdinalSales('2021', 5000),
-      new OrdinalSales('2022', 4500),
-      new OrdinalSales('2023', 4300),
-    ];
-    final globalSalesData2 = [
-      new OrdinalSales('2007', 3100),
-      new OrdinalSales('2008', 3500),
-      new OrdinalSales('2009', 5000),
-      new OrdinalSales('2010', 2500),
-      new OrdinalSales('2011', 3200),
-      new OrdinalSales('2012', 4500),
-      new OrdinalSales('2013', 4400),
-      new OrdinalSales('2014', 5000),
-      new OrdinalSales('2015', 5000),
-      new OrdinalSales('2016', 4500),
-      new OrdinalSales('2017', 4300),
-       new OrdinalSales('2018', 4500),
-      new OrdinalSales('2019', 4400),
-      new OrdinalSales('2020', 5000),
-      new OrdinalSales('2021', 5000),
-      new OrdinalSales('2022', 4500),
-      new OrdinalSales('2023', 4300),
-    ];
-
+  List<charts.Series<OrdinalSales, String>> _createSeries(){
+    final recoveredCases = history.map((e) => OrdinalSales(e.day.toIso8601String(), e.recoveredNumber));
+    final deathCases = history.map((e) => OrdinalSales(e.day.toIso8601String(), e.deathNumber));
     return [
        new charts.Series<OrdinalSales, String>(
-        id: 'Global Reve',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: globalSalesData,
+        id: 'Recovered',
+        domainFn: (OrdinalSales sales, _) => sales.day,
+        measureFn: (OrdinalSales sales, _) => sales.number,
+        data: isRecovered ? deathCases : recoveredCases,
         seriesColor: charts.MaterialPalette.gray.shade200
       ),
       new charts.Series<OrdinalSales, String>(
-        id: 'Global Revenue',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: globalSalesData,
-        seriesColor: charts.MaterialPalette.green.makeShades(2)[0]
+        id: 'Deaths',
+        domainFn: (OrdinalSales sales, _) => sales.day,
+        measureFn: (OrdinalSales sales, _) => sales.number,
+        data: isRecovered ? recoveredCases: deathCases,
+        seriesColor: isRecovered ? charts.MaterialPalette.green.makeShades(2)[0]: charts.MaterialPalette.red.makeShades(2)[0]
       ),
-     
-
     ];
   }
 }
 /// Sample ordinal data type.
 class OrdinalSales {
-  final String year;
-  final int sales;
+  final String day;
+  final int number;
 
-  OrdinalSales(this.year, this.sales);
+  OrdinalSales(this.day, this.number);
 }
