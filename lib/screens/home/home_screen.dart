@@ -15,7 +15,8 @@ class HomePage extends StatelessWidget {
       Icon(Icons.short_text, color: Colors.white,size: 32.0,),
       Icon(Icons.notifications, color: Colors.white,size: 32.0,)
     ],mainAxisAlignment: MainAxisAlignment.spaceBetween,);
-    }
+  }
+
   Widget _covidAlgeriaInfo(BuildContext context , DateTime lastUpdate, int CaseNumber){
     return Column(children: <Widget>[
       Container(
