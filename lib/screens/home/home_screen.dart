@@ -1,6 +1,6 @@
 import 'package:covid_app/bloc/covid_bloc.dart';
 import 'package:covid_app/consts.dart';
-import 'package:covid_app/widgets/covid_chart.dart';
+import 'package:covid_app/screens/select_wilaya.dart';
 import 'package:covid_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +11,6 @@ class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
 
 
-  void _onSelectCityClicked(){
-
-  }
   String _getFormattedDate(){
     final date = DateTime.now();
     final month = MONTHS[date.month-1];
@@ -72,7 +69,13 @@ class HomePage extends StatelessWidget {
             )  
             ,
             RaisedButton(  
-              onPressed: _onSelectCityClicked,
+              onPressed: () async{
+                final selectedCity = await Navigator.push(context, MaterialPageRoute(builder: 
+                (context)=> SelectWilaya()
+                ));
+                city = selectedCity;
+                BlocProvider.of<CovidBloc>(context).add(SelectedCityEvent(city: selectedCity));
+              },
               color: Colors.white,
               textColor: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

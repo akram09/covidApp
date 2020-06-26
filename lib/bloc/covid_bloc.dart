@@ -23,8 +23,15 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
     CovidEvent event,
   ) async* {
     if(event is SelectedCityEvent){
+      yield InitialLoading();
+      if(event.city==null){
+        final stats = client.getCountryStats();
+        yield LoadingSuccess(stats: stats); 
+      }else{
       final stats = client.getWilayaStats(event.city); 
       yield LoadingSuccess(stats: stats);
+      }
+      
     }else if (event is LoadInitialData){
       try{
         final stats = client.getCountryStats();
