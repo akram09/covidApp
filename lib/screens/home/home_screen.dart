@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  String city = null; 
+
+  HomePage({Key key}) : super(key: key);
 
 
   void _onSelectCityClicked(){
@@ -101,9 +103,156 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: 16.0,),
                 _covidAlgeriaInfo(context, DateTime.now(), 2000),
                 SizedBox(height: 16.0,),
-                CovidStatsCard(),
+                Row(children: <Widget>[
+                  CovidStatsCard(isRecovered: false,),
+                  CovidStatsCard(isRecovered: true,),
+                ],mainAxisAlignment: MainAxisAlignment.spaceBetween,),
+                SizedBox(height: 16.0,),
+                Container(
+                  width:double.infinity,
+                  child: Material(
+                    elevation: 1,
+                    color: Colors.white,
+                    shadowColor: Colors.grey.shade200,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    child:Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child:BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
+                        if(state is InitialLoading){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }else if(state is LoadingSuccess){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text("ACTIVE CASES"),
+                                    Text(state.stats.activeCases.toString(), style: Theme.of(context).textTheme.headline4.apply(color: Colors.black),)
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                  state.stats.historyStats.first.midConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                    Text((state.stats.historyStats.first.midConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text("Mid Condition", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+                                  ],)
+                                  
+                                ],),
+                                SizedBox(height: 20,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                  state.stats.historyStats.first.criticalConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                    Text((state.stats.historyStats.first.criticalConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text("Critical", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+                                  ],)
+                                  
+                                ],)
+
+
+
+
+                              ],)
+                              
+                            ],
+                          );
+                        }else{
+                          return Center(child: Text("No Internet Connection", style:Theme.of(context).textTheme.subtitle1.apply(color: Colors.red) ),);
+                        }
+                      },)
+                    ) 
+                  ),
+                ),
+                SizedBox(height: 10,),
                 
+                Container(
+                  width:double.infinity,
+                  child: Material(
+                    elevation: 1,
+                    color: Colors.white,
+                    shadowColor: Colors.grey.shade200,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    child:Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child:BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
+                        if(state is InitialLoading){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }else if(state is LoadingSuccess){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text("CLOSED CASES"),
+                                    Text(state.stats.closedCases.toString(), style: Theme.of(context).textTheme.headline4.apply(color: Colors.black),)
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                  state.stats.historyStats.first.recoveredPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                    Text((state.stats.historyStats.first.recoveredPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text("Recovered", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+                                  ],),
+                                  SizedBox(width:20)
+                                  
+                                ],),
+                                SizedBox(height: 20,),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                  state.stats.historyStats.first.deathPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                    Text((state.stats.historyStats.first.deathPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text("Deaths", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+                                  ],)
+                                  
+                                ],)
+
+
+
+
+                              ],),
+                              
+                            ],
+                          );
+                        }else{
+                          return Center(child: Text("No Internet Connection", style:Theme.of(context).textTheme.subtitle1.apply(color: Colors.red) ),);
+                        }
+                      },)
+                    ) 
+                  ),
+                )
                 
+
               ],
             ),
           ),

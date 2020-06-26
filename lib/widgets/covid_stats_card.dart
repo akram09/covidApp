@@ -6,9 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CovidStatsCard extends StatelessWidget {
+  final bool isRecovered ; 
   
 
-  const CovidStatsCard({Key key}) : super(key: key); 
+  const CovidStatsCard({Key key, this.isRecovered}) : super(key: key); 
 
 
   
@@ -26,7 +27,7 @@ class CovidStatsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                child:Text("RECOVERED",
+                child:Text(isRecovered ?"RECOVERED": "DEATHS",
                   style: Theme.of(context).textTheme.caption.apply(
                     color: Colors.grey
                     )
@@ -34,22 +35,29 @@ class CovidStatsCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4),
                 ),
                 Container(
-                child:Text("98",
-                  style: Theme.of(context).textTheme.headline4.apply(
-                    color: Colors.green
-                    )
-                  ) ,
-                padding: EdgeInsets.only(left: 4, top: 6),
+                  child: BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
+                    if(state is LoadingSuccess){
+                      return Text(isRecovered ? state.stats.historyStats.first.recoveredNumber.toString(): state.stats.historyStats.first.deathNumber.toString(),
+                        style: Theme.of(context).textTheme.headline4.apply(
+                        color: isRecovered? Colors.green: Colors.red
+                        )
+                      );
+                    }else{
+                      return Text("0",
+                        style: Theme.of(context).textTheme.headline4.apply(
+                        color: isRecovered? Colors.green: Colors.red
+                        )
+                      );
+                    }
+                  },)
                 )
-                , 
-                
-                
+                ,                 
                 Container(
                   child: BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
                     if(state is InitialLoading){
                       return Center(child: CircularProgressIndicator(),);
                     }else if(state is LoadingSuccess){
-                      return CovidChart(animate: true,isRecovered: false,history: state.stats.historyStats,);
+                      return CovidChart(animate: true,isRecovered: isRecovered,history: state.stats.historyStats,);
                     }else{
                       return Center(child: Text("No Internet Connection", style: Theme.of(context).textTheme.subtitle1.apply(color: Colors.red),));
                     }
