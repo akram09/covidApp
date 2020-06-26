@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
         _currentIndex = newIndex;
       });
     }
-    static const List<Widget> mainPages = <Widget>[
+    static List<Widget> mainPages = <Widget>[
         HomePage(),
         Center(child: Text("dadeata")),
     ];

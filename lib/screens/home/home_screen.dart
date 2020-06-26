@@ -1,12 +1,13 @@
 import 'package:covid_app/bloc/covid_bloc.dart';
 import 'package:covid_app/consts.dart';
+import 'package:covid_app/models/wilaya.dart';
 import 'package:covid_app/screens/select_wilaya.dart';
 import 'package:covid_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  String city = null; 
+  Wilaya city = null; 
 
   HomePage({Key key}) : super(key: key);
 
@@ -71,7 +72,7 @@ class HomePage extends StatelessWidget {
             RaisedButton(  
               onPressed: () async{
                 final selectedCity = await Navigator.push(context, MaterialPageRoute(builder: 
-                (context)=> SelectWilaya()
+                (context)=> SelectWilaya(wilaya: city,)
                 ));
                 city = selectedCity;
                 BlocProvider.of<CovidBloc>(context).add(SelectedCityEvent(city: selectedCity));
