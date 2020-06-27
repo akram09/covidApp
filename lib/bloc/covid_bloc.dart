@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:covid_app/data/covid_api.dart';
 import 'package:covid_app/models/stats.dart';
+import 'package:covid_app/models/wilaya.dart';
 import 'package:equatable/equatable.dart';
 
 part 'covid_event.dart';

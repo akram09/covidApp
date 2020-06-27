@@ -1,8 +1,9 @@
 import 'package:covid_app/models/day_stat.dart';
+import 'package:covid_app/models/wilaya.dart';
 import 'package:equatable/equatable.dart';
 
 class Stats extends Equatable{
-  final String city; 
+  final Wilaya city; 
   final int totalCases;
   final int activeCases; 
   final int closedCases; 

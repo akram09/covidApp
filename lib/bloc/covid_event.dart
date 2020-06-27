@@ -6,7 +6,7 @@ abstract class CovidEvent extends Equatable {
   List<Object> get props => [];
 }
 class SelectedCityEvent extends CovidEvent{
-  final String city;
+  final Wilaya city;
   const SelectedCityEvent({this.city});
 
   @override

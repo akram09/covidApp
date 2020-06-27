@@ -49,24 +49,21 @@ class HomePage extends StatelessWidget {
           
         ),),alignment:AlignmentDirectional.topStart , 
       ),
-      Row(
+      BlocBuilder<CovidBloc, CovidState>(builder: (context, state) {
+        return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              child: BlocBuilder<CovidBloc, CovidState>(builder: (context , state){
-                  if(state is LoadingSuccess){
-                    return Text(state.stats.totalCases.toString(),
+              child: state is LoadingSuccess ?
+                  Text(state.stats.totalCases.toString(),
                         style: Theme.of(context).textTheme.headline3.apply(
                           color: Colors.white
                         )
-                      );
-                  }else{
-                    return Text("0",style: Theme.of(context).textTheme.headline3.apply(
+                      )
+                  :Text("0",style: Theme.of(context).textTheme.headline3.apply(
                         color: Colors.white 
                         ),
-                      );
-                  }
-              })    
+                      )    
             )  
             ,
             RaisedButton(  
@@ -81,11 +78,14 @@ class HomePage extends StatelessWidget {
               textColor: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
               padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text("Select City"),),
+              child:state is LoadingSuccess && state.stats.city!=null ? Text(state.stats.city.name):
+                 Text("Select City")  
+            ,),
           ],
-        )
-      ,
+        );
 
+      },)
+      ,
     ],crossAxisAlignment: CrossAxisAlignment.start,); 
   }
 
@@ -127,6 +127,7 @@ class HomePage extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         }else if(state is LoadingSuccess){
+                          print("Hllo state");
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
