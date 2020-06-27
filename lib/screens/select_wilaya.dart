@@ -1,3 +1,4 @@
+import 'package:covid_app/consts.dart';
 import 'package:covid_app/models/wilaya.dart';
 import 'package:flutter/material.dart';
 class SelectWilaya extends StatefulWidget {
@@ -17,6 +18,35 @@ class _SelectWilayaState extends State<SelectWilaya> {
   void initState() { 
     super.initState();
     wilaya = widget.wilaya;
+  }
+
+  Widget _wilayaWidget(Wilaya wilaya, bool done ){
+    return Container(
+              width: double.infinity,
+              child:Material(
+                color: Colors.white,
+                elevation: 1,
+                shadowColor: Colors.grey.shade200,
+                child:Container(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child:  Row(
+                      children: <Widget>[
+                        SizedBox(width: 50,),
+                        Text(wilaya.number.toString(), style: Theme.of(context).textTheme.headline6.apply(color: Colors.red),),
+                        SizedBox(width: 10,),
+                        Text(wilaya.name, style: Theme.of(context).textTheme.subtitle1,),
+                        Expanded(child: Container(
+                          child: Icon(Icons.done, color:done ? Colors.red: Colors.transparent,),
+                          padding: EdgeInsets.only(right: 30),
+                          alignment: Alignment.topRight,
+                        )
+                          
+                        )
+                      ],
+                    )
+                  ) ,
+                )
+              );
   }
 
 
@@ -65,11 +95,33 @@ class _SelectWilayaState extends State<SelectWilaya> {
                 ),
               )
             ),
-           
+            wilaya!=null ?
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-              child: Text("Current Location"),
+              child: Column(children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  alignment: Alignment.topLeft,
+                  child: Text("Current Location",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+                ),
+                _wilayaWidget(Wilaya(name: "Blida", number: 9), true)
+              ],)
+            ):SizedBox(height: 20,),
+            Container(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  alignment: Alignment.topLeft,
+                  child: Text("List",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
+            ),
+            Expanded(child: ListView.builder(
+                itemCount: WILAYAS.length,
+                itemBuilder: (context, index){
+                  return _wilayaWidget(WILAYAS[index], false);
+                },
+              )
             )
+            
+
+            
+            
             
           ],)
 
