@@ -1,6 +1,8 @@
+import 'package:covid_app/bloc/selected_wilaya_bloc.dart';
 import 'package:covid_app/consts.dart';
 import 'package:covid_app/models/wilaya.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class SelectWilaya extends StatefulWidget {
   final Wilaya wilaya; 
   
@@ -12,48 +14,11 @@ class SelectWilaya extends StatefulWidget {
 
 class _SelectWilayaState extends State<SelectWilaya> {
   TextEditingController editingController = TextEditingController();
-  var  wilaya ; 
-  var  wilayas = WILAYAS;
-
-  @override
-  void initState() { 
-    wilaya = widget.wilaya;
-    super.initState();
-  }
 
 
-  void _filterSearch(String query){
-    if(query.isNotEmpty){ 
-      print("entered");
-      List<Wilaya> filteredData = List<Wilaya>();
-      WILAYAS.forEach((element) {
-        if(element.name.toLowerCase().contains(query.toLowerCase())){
-          filteredData.add(element);
-        }
-      });
-      print(filteredData.toString());
-      print("State =====");
-      this.setState(() {
-        wilayas.clear();
-        print(wilayas);
-        wilayas.addAll(filteredData);
-        print(wilayas);
-      });
-      print(wilayas);
-      return ; 
-    }else{
-      setState(() {
-        wilayas.clear();
-        wilayas.addAll(WILAYAS);
-      });  
-    }
-  }
-
-  Widget _wilayaWidget(Wilaya wilaya, bool done ){
+  Widget _wilayaWidget(Wilaya wilaya, bool done, BuildContext context  ){
     return GestureDetector(onTap: (){
-      setState(() {
-        this.wilaya = wilaya;
-      });
+      BlocProvider.of<SelectedWilayaBloc>(context).add(WilayaTouched(wilaya: wilaya));
     },
       child: Container(
               width: double.infinity,
@@ -89,49 +54,57 @@ class _SelectWilayaState extends State<SelectWilaya> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(color:Color.fromRGBO(242, 246, 248,1), 
-     child: SafeArea(
-      child:Container(color: Color.fromRGBO(242, 246, 248,1),
-        child:
-        Column(children: <Widget>[
-            Container(child: Icon(Icons.arrow_back), 
-            padding:EdgeInsets.symmetric(horizontal: 20, vertical: 30) ,
-            alignment: Alignment.topLeft,),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              width: double.infinity,
-              child: Material(
-                elevation: 1,
-                color: Colors.white,
-                shadowColor: Colors.grey.shade200,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                child: Padding(padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14), 
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.search, color: Colors.grey,),
-                    Expanded(child: 
-                      Container(
-                        padding: EdgeInsets.only(left: 6),
-                        child:TextField(
-                          onChanged: (value){
-                            _filterSearch(value);
+    return BlocProvider(create: (context) {
+      return SelectedWilayaBloc(widget.wilaya);
+    },
+      child: BlocBuilder<SelectedWilayaBloc, SelectedWilayaState>(builder: (context, state) {
+        return  Container(color:Color.fromRGBO(242, 246, 248,1), 
+            child: SafeArea(
+              child:Container(color: Color.fromRGBO(242, 246, 248,1),
+                child:
+                  Column(children: <Widget>[
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context, state.wilaya);
                           },
-                          controller: editingController,
-                          decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search"
-                          ),
-                        )
-                      )
-                    )  
-                  ],
+                          child: Container(child: Icon(Icons.arrow_back), 
+                              padding:EdgeInsets.symmetric(horizontal: 20, vertical: 30) ,
+                            alignment: Alignment.topLeft,),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        width: double.infinity,
+                        child: Material(
+                          elevation: 1,
+                          color: Colors.white,
+                          shadowColor: Colors.grey.shade200,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          child: Padding(padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14), 
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.search, color: Colors.grey,),
+                                    Expanded(child: 
+                                      Container(
+                                        padding: EdgeInsets.only(left: 6),
+                                        child:TextField(
+                                          onChanged: (value){
+                                            BlocProvider.of<SelectedWilayaBloc>(context).add(WilayaFilter(query: value));
+                                          },
+                                          controller: editingController,
+                                          decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Search"
+                                            ),
+                                        )
+                                      )
+                                    )  
+                                  ],
 
-                ),
-                ),
-              )
-            ),
-            wilaya!=null ?
+                                ),
+                              ),
+                            )
+                      ),
+            state.wilaya!=null ?
             Container(
               child: Column(children: <Widget>[
                 Container(
@@ -139,7 +112,7 @@ class _SelectWilayaState extends State<SelectWilaya> {
                   alignment: Alignment.topLeft,
                   child: Text("Current Location",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                 ),
-                _wilayaWidget(wilaya, true)
+                _wilayaWidget(state.wilaya, true, context)
               ],)
             ):SizedBox(height: 20,),
             Container(
@@ -148,23 +121,23 @@ class _SelectWilayaState extends State<SelectWilaya> {
                   child: Text("List",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
             ),
             Expanded(child: ListView.builder(
-                itemCount: wilayas.length,
+                itemCount: state.wilayas.length,
                 itemBuilder: (context, index){
-                  return _wilayaWidget(wilayas[index], false);
+                  return _wilayaWidget(state.wilayas[index], false, context);
                 },
               )
             )
             
-
-            
-            
-            
+       
           ],)
-
-      
         ),
       )
       );
+
+
+      },)
+    );
+    
     
   }
 }
