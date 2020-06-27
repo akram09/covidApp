@@ -12,17 +12,52 @@ class SelectWilaya extends StatefulWidget {
 
 class _SelectWilayaState extends State<SelectWilaya> {
   TextEditingController editingController = TextEditingController();
-  Wilaya wilaya ; 
+  var  wilaya ; 
+  var  wilayas = WILAYAS;
 
   @override
   void initState() { 
-    super.initState();
     wilaya = widget.wilaya;
+    super.initState();
+  }
+
+
+  void _filterSearch(String query){
+    if(query.isNotEmpty){ 
+      print("entered");
+      List<Wilaya> filteredData = List<Wilaya>();
+      WILAYAS.forEach((element) {
+        if(element.name.toLowerCase().contains(query.toLowerCase())){
+          filteredData.add(element);
+        }
+      });
+      print(filteredData.toString());
+      print("State =====");
+      this.setState(() {
+        wilayas.clear();
+        print(wilayas);
+        wilayas.addAll(filteredData);
+        print(wilayas);
+      });
+      print(wilayas);
+      return ; 
+    }else{
+      setState(() {
+        wilayas.clear();
+        wilayas.addAll(WILAYAS);
+      });  
+    }
   }
 
   Widget _wilayaWidget(Wilaya wilaya, bool done ){
-    return Container(
+    return GestureDetector(onTap: (){
+      setState(() {
+        this.wilaya = wilaya;
+      });
+    },
+      child: Container(
               width: double.infinity,
+              
               child:Material(
                 color: Colors.white,
                 elevation: 1,
@@ -46,7 +81,8 @@ class _SelectWilayaState extends State<SelectWilaya> {
                     )
                   ) ,
                 )
-              );
+              ),
+    );
   }
 
 
@@ -79,7 +115,7 @@ class _SelectWilayaState extends State<SelectWilaya> {
                         padding: EdgeInsets.only(left: 6),
                         child:TextField(
                           onChanged: (value){
-
+                            _filterSearch(value);
                           },
                           controller: editingController,
                           decoration: InputDecoration(
@@ -103,7 +139,7 @@ class _SelectWilayaState extends State<SelectWilaya> {
                   alignment: Alignment.topLeft,
                   child: Text("Current Location",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                 ),
-                _wilayaWidget(Wilaya(name: "Blida", number: 9), true)
+                _wilayaWidget(wilaya, true)
               ],)
             ):SizedBox(height: 20,),
             Container(
@@ -112,9 +148,9 @@ class _SelectWilayaState extends State<SelectWilaya> {
                   child: Text("List",style: Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
             ),
             Expanded(child: ListView.builder(
-                itemCount: WILAYAS.length,
+                itemCount: wilayas.length,
                 itemBuilder: (context, index){
-                  return _wilayaWidget(WILAYAS[index], false);
+                  return _wilayaWidget(wilayas[index], false);
                 },
               )
             )
