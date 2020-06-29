@@ -29,10 +29,10 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: SafeArea(child: mainPages.elementAt(_currentIndex),),  
       bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.pie_chart), title: Text("")),
+        BottomNavigationBarItem(icon: Icon(Icons.insert_chart), title: Text("")) ,
 
-       BottomNavigationBarItem(icon: Icon(Icons.multiline_chart), title: Text("")),
-       BottomNavigationBarItem(icon: Icon(Icons.short_text), title: Text("")),
+       BottomNavigationBarItem(icon: Icon(Icons.pin_drop), title: Text("")),
+       BottomNavigationBarItem(icon: Icon(Icons.event), title: Text("")),
        BottomNavigationBarItem(icon: Icon(Icons.person_outline), title: Text("")),
       ],
       currentIndex: _currentIndex,
