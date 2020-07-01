@@ -4,6 +4,7 @@ import 'package:covid_app/bloc/covid_bloc.dart';
 import 'package:covid_app/data/covid_api.dart';
 import 'package:covid_app/screens/screens.dart';
 import 'package:dio/dio.dart';
+import 'consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -11,8 +12,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final dio = Dio();
-  // adding options you can add interceptor here  TODO:
-  dio.options.baseUrl ="";
+  dio.options.baseUrl = BASE_URL;
   dio.options.connectTimeout = 5000; //5s
   dio.options.receiveTimeout = 3000;
   dio.interceptors.add(PrettyDioLogger(

@@ -146,11 +146,11 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.first.midConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.midConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                    Text((state.stats.historyStats.first.midConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text((state.stats.historyStats.last.midConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
                                     Text("Mid Condition", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                                   ],)
                                   
@@ -159,11 +159,11 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.first.criticalConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.criticalConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                    Text((state.stats.historyStats.first.criticalConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text((state.stats.historyStats.last.criticalConditionPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
                                     Text("Critical", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                                   ],)
                                   
@@ -218,11 +218,11 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.first.recoveredPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.recoveredPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                    Text((state.stats.historyStats.first.recoveredPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text((state.stats.historyStats.last.recoveredPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
                                     Text("Recovered", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                                   ],),
                                   SizedBox(width:20)
@@ -232,11 +232,11 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.first.deathPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.deathPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                    Text((state.stats.historyStats.first.deathPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
+                                    Text((state.stats.historyStats.last.deathPercentage*100).ceil().abs().toString()+'%', style: Theme.of(context).textTheme.subtitle1,),
                                     Text("Deaths", style:  Theme.of(context).textTheme.bodyText1.apply(color: Colors.grey),),
                                   ],)
                                   

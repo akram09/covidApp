@@ -53,3 +53,4 @@ const WILAYAS = <Wilaya>[
   Wilaya(name: "GHARDAIA", number: 47),
   Wilaya(name: "RELIZANE", number: 48),
 ];
+const BASE_URL = "https://covid-unravel.herokuapp.com";

@@ -26,7 +26,7 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
     if(event is SelectedCityEvent){
       yield InitialLoading();
       if(event.city==null){
-        final stats = client.getCountryStats();
+        final stats = await client.getCountryStats();
         yield LoadingSuccess(stats: stats); 
       }else{
       final stats = client.getWilayaStats(event.city); 
@@ -35,7 +35,7 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
       
     }else if (event is LoadInitialData){
       try{
-        final stats = client.getCountryStats();
+        final stats = await client.getCountryStats();
         yield LoadingSuccess(stats: stats); 
       }catch(_){
         yield LoadingFail(); 
