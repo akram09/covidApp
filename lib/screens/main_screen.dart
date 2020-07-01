@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
         BottomNavigationBarItem(icon: Icon(Icons.insert_chart), title: Text("")) ,
 
        BottomNavigationBarItem(icon: Icon(Icons.pin_drop), title: Text("")),
-       BottomNavigationBarItem(icon: Icon(Icons.event), title: Text("")),
+       BottomNavigationBarItem(icon: Icon(Icons.live_tv), title: Text("")),
        BottomNavigationBarItem(icon: Icon(Icons.person_outline), title: Text("")),
       ],
       currentIndex: _currentIndex,

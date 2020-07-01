@@ -23,7 +23,7 @@ class CovidChart extends StatelessWidget {
           renderSpec: charts.NoneRenderSpec(),
           showAxisLine: false),
       defaultRenderer: charts.BarRendererConfig(
-        groupingType: charts.BarGroupingType.stacked,
+        groupingType: charts.BarGroupingType.grouped,
 
         cornerStrategy: const charts.ConstCornerStrategy(30),
         strokeWidthPx: 1
@@ -40,21 +40,19 @@ class CovidChart extends StatelessWidget {
 
   void _createSeries(){
     seriesList = [
-       charts.Series<DayState, String>(
-        id: 'Recovered',
-        domainFn: (DayState numbers, _) => numbers.day.toIso8601String(),
-        measureFn: (DayState numbers, _) => isRecovered ? numbers.deathNumber: numbers.recoveredNumber,
-        data: history,
-        seriesColor: charts.MaterialPalette.gray.shade200
-      ),
+      
       charts.Series<DayState, String>(
-        id: 'Global Revenue',
+        id: 'Global Revenue1',
         domainFn: (DayState numbers, _) => numbers.day.toIso8601String(),
         measureFn: (DayState numbers, _) => isRecovered ? numbers.recoveredNumber:numbers.deathNumber ,
         data:history,
         seriesColor: isRecovered ? charts.MaterialPalette.green.makeShades(2)[0]: charts.MaterialPalette.red.makeShades(2)[0]
       ),
+      
+
     ];
+      
+      
   }
 }
 /// Sample ordinal data type.

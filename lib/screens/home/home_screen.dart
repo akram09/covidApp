@@ -146,7 +146,7 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.last.midConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.midConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.red,) :Icon(Icons.keyboard_arrow_up, color: Colors.green,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
@@ -159,7 +159,7 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.last.criticalConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.criticalConditionPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.red,) :Icon(Icons.keyboard_arrow_up, color: Colors.green,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
@@ -218,7 +218,7 @@ class HomePage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                  state.stats.historyStats.last.recoveredPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.green,) :Icon(Icons.keyboard_arrow_up, color: Colors.red,),
+                                  state.stats.historyStats.last.recoveredPercentage>0?Icon(Icons.keyboard_arrow_down,color: Colors.red,) :Icon(Icons.keyboard_arrow_up, color: Colors.green,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[

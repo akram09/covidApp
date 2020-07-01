@@ -29,7 +29,7 @@ class CovidBloc extends Bloc<CovidEvent, CovidState> {
         final stats = await client.getCountryStats();
         yield LoadingSuccess(stats: stats); 
       }else{
-      final stats = client.getWilayaStats(event.city); 
+      final stats = await client.getWilayaStats(event.city); 
       yield LoadingSuccess(stats: stats);
       }
       
