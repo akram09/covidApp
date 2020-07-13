@@ -26,7 +26,7 @@ class CovidApiClient {
         throw Exception("Internet Connection Problem");
       }else{
         dynamic TimelineObject  = (timeLineResponse.data as List).first;
-        DateTime time = DateTime.now().subtract(Duration(days: 15));
+        DateTime time = DateTime.now().subtract(Duration(days: 16));
         var rng = Random();
         var daySates = <DayState>[];
         DayState dayState =null;
@@ -81,7 +81,7 @@ class CovidApiClient {
         throw Exception("Internet Connection Problem");
       }else{
         dynamic TimelineObject  = (timeLineResponse.data as List).first;
-        DateTime time = DateTime.now().subtract(Duration(days: 15));
+        DateTime time = DateTime.now().subtract(Duration(days: 16));
         
         var daySates = <DayState>[];
         DayState dayState =null;
