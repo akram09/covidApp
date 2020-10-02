@@ -1,8 +1,14 @@
-# covid_app
+# Covid App
 
-A new Flutter project.
+Covid App is a Flutter mobile Application that enables people to track the spreading of the virus in different wilayas in Algeria using real-time data in order to avoid regions where the virus is spreading.
+The app has a minimalistic modern design and is built for ease-of-use and performance.
 
-## Getting Started
+
+## Current Features
+- Home page 
+- Selecting a wilaya
+
+## Getting Started with Flutter
 
 This project is a starting point for a Flutter application.
 
